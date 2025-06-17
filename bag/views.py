@@ -85,9 +85,10 @@ def remove_from_bag(request, item_id):
         bag = request.session.get('bag', {})
 
         if size:
-            del bag[item_id]['items_by_size'][size]
-            if not bag[item_id]['items_by_size']:
-                bag.pop(item_id)
+            if size in bag[item_id]['items_by_size']:
+                del bag[item_id]['items_by_size'][size]
+                if not bag[item_id]['items_by_size']:
+                    bag.pop(item_id)
         else:
             bag.pop(item_id)
 
