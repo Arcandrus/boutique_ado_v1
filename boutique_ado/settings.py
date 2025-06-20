@@ -29,7 +29,8 @@ SECRET_KEY = 'django-insecure-p%u)5sdygs5o(j!s7^560w^^rfj!y)09mj#0an%qh$0d#0&5x)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1',
+                 'localhost']
 
 # Application definition
 INSTALLED_APPS = [
@@ -172,6 +173,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Stripe
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
+
 STRIPE_CURRENCY = "gbp"
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET')
