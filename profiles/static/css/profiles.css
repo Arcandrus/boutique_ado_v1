@@ -1,0 +1,24 @@
+/* Placeholder color for all placeholders in inputs */
+#profile_update_form input::placeholder {
+    color: #aab7c4;
+}
+
+/* Input text color */
+#profile_update_form .form-control {
+    color: #000;
+}
+
+/* Style the country dropdown text color */
+#id_default_country {
+    color: #aab7c4; /* Initially placeholder color */
+}
+
+/* When a real option is selected, it should turn black */
+#id_default_country option {
+    color: #000;
+}
+
+/* First option (the placeholder) should stay light */
+#id_default_country option:first-child {
+    color: #aab7c4;
+}
