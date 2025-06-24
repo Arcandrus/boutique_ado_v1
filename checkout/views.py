@@ -115,6 +115,7 @@ def checkout(request):
                     'county': profile.default_county,
                     'country': profile.default_country,
                 })
+
             except UserProfile.DoesNotExist:
                 order_form = OrderForm()
         else:
