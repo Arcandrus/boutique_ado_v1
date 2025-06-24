@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_countries',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'products',
     'bag',
     'checkout',
+    'profiles',
     'crispy_forms',
 ]
 
