@@ -24,8 +24,7 @@ def cache_checkout_data(request):
         })
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, 'Sorry, your payment cannot be \
-            processed right now. Please try again later.')
+        messages.error(request, 'Sorry, your payment cannot be \nprocessed right now. Please try again later.')
         return HttpResponse(content=e, status=400)
 
 
@@ -75,8 +74,7 @@ def checkout(request):
                             order_line_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
-                        "One of the products in your bag wasn't found in our database. "
-                        "Please call us for assistance!")
+                        "One of the products in your bag wasn't found in our database. \nPlease call us for assistance!")
                     )
                     order.delete()
                     return redirect(reverse('view_bag'))
@@ -84,8 +82,7 @@ def checkout(request):
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
-            messages.error(request, 'There was an error with your form. \
-                Please double check your information.')
+            messages.error(request, 'There was an error with your form. \nPlease double check your information.')
     else:
         bag = request.session.get('bag', {})
         if not bag:
@@ -122,8 +119,7 @@ def checkout(request):
             order_form = OrderForm()
 
         if not stripe_public_key:
-            messages.warning(request, 'Stripe public key is missing. \
-                Did you forget to set it in your environment?')
+            messages.warning(request, 'Stripe public key is missing. \nDid you forget to set it in your environment?')
 
         template = 'checkout/checkout.html'
         context = {
@@ -162,9 +158,7 @@ def checkout_success(request, order_number):
             if user_profile_form.is_valid():
                 user_profile_form.save()
 
-    messages.success(request, f'Order successfully processed! \
-        Your order number is {order_number}. A confirmation \
-        email will be sent to {order.email}.')
+    messages.success(request, f'Order successfully processed! \nYour order number is {order_number}. \nA confirmation email will be sent to {order.email}.')
 
     if 'bag' in request.session:
         del request.session['bag']
