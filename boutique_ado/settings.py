@@ -195,9 +195,9 @@ if 'USE_AWS' in os.environ:
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_S3_CUSTOM_DOMIAN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-    STATICFILES_STORAGE = 'boutique_ado.custom_storages.StaticStorage'
+    STATICFILES_STORAGE = 'boutique_ado_v1.custom_storages.StaticStorage'
     STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'boutique_ado.custom_storages.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'boutique_ado_v1.custom_storages.MediaStorage'
     MEDIAFILES_LOCATION = 'media'
 
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMIAN}/{STATICFILES_LOCATION}'
