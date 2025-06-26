@@ -59,7 +59,7 @@ form.addEventListener('submit', function (ev) {
     var url = '/checkout/cache_checkout_data/';
     
     $.post(url, postData).done(function () {
-        stripe.confirmCardPayment(clientSecret, {
+        let data = {
             payment_method: {
                 card: card,
                 billing_details: {
@@ -87,7 +87,9 @@ form.addEventListener('submit', function (ev) {
                     country: $.trim(form.country.value),
                 }
             }
-        }).then(function (result) {
+        }
+        console.log(data);
+        stripe.confirmCardPayment(clientSecret, data).then(function (result) {
             if (result.error) {
                 var errorDiv = document.getElementById('card-errors');
                 var html = `
