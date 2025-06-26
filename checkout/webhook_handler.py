@@ -95,7 +95,7 @@ class StripeWebhookHandler:
                     street_address1__iexact=shipping_address.get('line1'),
                     street_address2__iexact=shipping_address.get('line2'),
                     county__iexact=shipping_address.get('state'),
-                    grand_total__iexact=grand_total,
+                    grand_total=grand_total,
                     original_bag=bag,
                     stripe_pid=pid,
                 )
