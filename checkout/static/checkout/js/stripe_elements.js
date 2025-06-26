@@ -54,6 +54,7 @@ form.addEventListener('submit', function (ev) {
         'csrfmiddlewaretoken': csrfToken,
         'client_secret': clientSecret,
         'save_info': saveInfo,
+        'email': $.trim(form.email.value),
     };
     var url = '/checkout/cache_checkout_data/';
     
