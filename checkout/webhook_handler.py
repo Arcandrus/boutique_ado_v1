@@ -40,8 +40,9 @@ class StripeWebhookHandler:
     def handle_payment_intent_succeeded(self, event):
         intent = event.data.object
         pid = intent.id
-        bag = intent.metadata.bag
-        save_info = intent.metadata.save_info
+        metadata = intent.metadata
+        bag = metadata.get('bag')
+        save_info = metadata.get('save_info')
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
@@ -93,7 +94,7 @@ class StripeWebhookHandler:
                     original_bag=bag,
                     stripe_pid=pid,
                 )
-                order_exists - True
+                order_exists = True
                 break
             except Order.DoesNotExist:
                 attempt += 1
