@@ -10,7 +10,6 @@ from profiles.models import UserProfile
 import json
 import stripe
 import time
-import traceback
 
 class StripeWebhookHandler:
     def __init__(self, request):
@@ -39,6 +38,8 @@ class StripeWebhookHandler:
             status=200)
     
     def handle_payment_intent_succeeded(self, event):
+        import traceback  # for debugging
+
         intent = event.data.object
         pid = intent.id
         metadata = intent.metadata
@@ -58,24 +59,9 @@ class StripeWebhookHandler:
         print(f"Shipping Details: {shipping_details}")
         print(f"Grand Total: {grand_total}")
 
-        # Clean empty shipping address fields
         for field, value in shipping_address.items():
             if value == "":
                 shipping_address[field] = None
-
-        # --- NEW: Robust email extraction ---
-        email = billing_details.email or metadata.get("email") or intent.receipt_email
-
-        # Fallback: if still no email, try charge billing details again just in case
-        if not email and intent.latest_charge:
-            try:
-                charge = stripe.Charge.retrieve(intent.latest_charge)
-                email = charge.billing_details.email
-            except Exception as e:
-                print(f"Error retrieving charge email fallback: {e}")
-
-        print(f"Resolved email: {email}")
-        # -----------------------------------
 
         profile = None
         username = metadata.get('username', None)
@@ -101,7 +87,7 @@ class StripeWebhookHandler:
                 order = Order.objects.get(
                     full_name__iexact=shipping_details.name,
                     user_profile=profile,
-                    email__iexact=email,
+                    email__iexact=billing_details.email,
                     phone_number__iexact=shipping_details.get('phone'),
                     country__iexact=shipping_address.get('country'),
                     postcode__iexact=shipping_address.get('postal_code'),
@@ -129,12 +115,11 @@ class StripeWebhookHandler:
         order = None
         print("billing_details.email:", billing_details.email)
         print("metadata email:", metadata.get("email"))
-        print("intent.receipt_email:", intent.receipt_email)
         try:
             order = Order.objects.create(
                 full_name=shipping_details.name,
                 user_profile=profile,
-                email=email,
+                email=billing_details.email,
                 phone_number=shipping_details.get('phone'),
                 country=shipping_address.get('country'),
                 postcode=shipping_address.get('postal_code'),
